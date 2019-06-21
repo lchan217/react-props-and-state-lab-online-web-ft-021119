@@ -15,6 +15,33 @@ class App extends React.Component {
     }
   }
 
+  updateFilter = event => {
+   this.setState({
+     filters: {
+       type: event.target.value,
+     }
+   });
+}
+
+
+  handleClick = (event) => {
+    if(this.state.filters.type === "all"){
+      fetch("/api/pets")
+      .then(response => response.json())
+      .then(data =>  this.setState({pets:data})
+    )
+    }
+     else {
+       fetch(`/api/pets?type=${this.state.filters.type}`)
+         .then(response => response.json())
+         .then(json => {
+           this.setState({
+             pets: json
+           })
+         })
+      }
+  }
+
   render() {
     return (
       <div className="ui container">
@@ -24,7 +51,7 @@ class App extends React.Component {
         <div className="ui container">
           <div className="ui grid">
             <div className="four wide column">
-              <Filters />
+              <Filters onChangeType={this.updateFilter} onFindPetsClick={this.handleClick}/>
             </div>
             <div className="twelve wide column">
               <PetBrowser />
