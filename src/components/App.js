@@ -13,7 +13,6 @@ class App extends React.Component {
         type: 'all'
       }
     }
-  //  this.onAdoptPet = this.onAdoptPet.bind(this)
   }
 
   updateFilter = event => {
@@ -42,18 +41,27 @@ class App extends React.Component {
       }
   }
 
+  // onAdoptPet = (petId) => {
+  //   let newPetState = this.state.pets.map(pet => {
+  //     if (pet.id === petId) {
+  //       pet.isAdopted = true
+  //       return pet
+  //     } else {
+  //       return pet
+  //     }
+  //   })
+  //     this.setState({
+  //       pets: newPetState
+  //     })
+  // }
+
   onAdoptPet = (petId) => {
-    let newPetState = this.state.pets.map(pet => {
-      if (pet.id === petId) {
-        pet.isAdopted = true
-        return pet
-      } else {
-        return pet
-      }
+    const pet = this.state.pets.find(pet => pet.id === petId)
+    pet.isAdopted = true
+
+    this.setState((prevState)=>{
+    	return {pets:[...prevState.pets, pet]}
     })
-      this.setState({
-        pets: newPetState
-      })
   }
 
   render() {
